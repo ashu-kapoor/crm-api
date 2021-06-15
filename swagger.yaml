@@ -1,0 +1,161 @@
+swagger: "2.0"
+info:
+  description: |
+    API for CRM Project. Provides following functionalities:
+      1. Create/ Update/ Delete User 
+      2. Create/ Update/ Delete Product
+      3. Create/ Update/ Delete Contact
+      4. Create/ Update/ Delete Attachment
+      5. Create/ Update/ Delete Opportunity
+      6. Create/ Update/ Delete Case
+      7. Authorizes user
+  version: "1.0.0"
+  title: "CRM API"
+  contact:
+    email: "ashutoshkapor1234@gmail.com"
+host: "localhost:8080"
+basePath: "/crm/v1"
+schemes:
+  - "http"
+produces:
+  - application/json
+consumes:
+  - application/json
+securityDefinitions:
+  API Key:
+    type: basic
+    description: API key needs to be presented as part of standard auth header
+security:
+  - API Key: []
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: Id of the user to update or delete
+    type: string
+    required: true
+paths:
+  /user:
+    post:
+      tags:
+        - User
+      description: Create a new user
+      operationId: createUser
+      parameters:
+        - name: user
+          in: body
+          description: User details
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+
+      responses:
+        201:
+          $ref: "#/responses/201UserResponse"
+        400:
+          $ref: "#/responses/400UserResponse"
+        500:
+          $ref: "#/responses/500UserResponse"
+
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        description: name of the user
+        type: string
+        example: Ashutosh Kapoor
+      password:
+        description: password of the user encrypted
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      role:
+        description: role of the user
+        type: string
+        enum:
+          - ADMIN
+          - USER
+      createdAt:
+        description: When user was created
+        type: string
+        format: date-time
+      updatedAt:
+        description: When user was updated
+        type: string
+        format: date-time
+  UserCreatedResponse:
+    type: object
+    properties:
+      userId:
+        description: newly created user Id
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  Error:
+    description: Individual errors
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        description: Error Code
+        type: integer
+        format: int32
+      message:
+        description: Error message
+        type: string
+      details:
+        description: Detail info about error
+        type: string
+
+responses:
+  201UserResponse:
+    description: Created
+    schema:
+      $ref: "#/definitions/UserCreatedResponse"
+  400UserResponse:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |1600  | Mandatory parameters missing | Invalid param value passed for parameter {0}
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 1600
+              message: Mandatory parameters missing
+              details: Invalid param value passed for parameter {0}
+  500UserResponse:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |1000  | Internal Server Error | Unexpected error
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 1000
+              message: Internal Server Error
+              details: Unexpected error
