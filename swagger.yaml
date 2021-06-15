@@ -34,6 +34,30 @@ parameters:
     description: Id of the user to update or delete
     type: string
     required: true
+  productId:
+    name: productId
+    in: path
+    description: Id of the product to update or delete
+    type: string
+    required: true
+  contactId:
+    name: contactId
+    in: path
+    description: Id of the contact to update or delete
+    type: string
+    required: true
+  opportunityId:
+    name: opportunityId
+    in: path
+    description: Id of the opportunity to update or delete
+    type: string
+    required: true
+  caseId:
+    name: caseId
+    in: path
+    description: Id of the case to update or delete
+    type: string
+    required: true
 paths:
   /user:
     post:
@@ -48,15 +72,224 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/User"
-
       responses:
         201:
-          $ref: "#/responses/201UserResponse"
+          $ref: "#/responses/201Response"
         400:
-          $ref: "#/responses/400UserResponse"
+          $ref: "#/responses/400Response"
         500:
-          $ref: "#/responses/500UserResponse"
-
+          $ref: "#/responses/500Response"
+  /user/{userId}:
+    put:
+      tags:
+        - User
+      description: Update user
+      operationId: updateUser
+      parameters:
+        - $ref: "#/parameters/userId"
+        - name: updateUser
+          in: body
+          description: Request to update user
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - User
+      description: Deletes a User
+      operationId: deleteUser
+      parameters:
+        - $ref: "#/parameters/userId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /product:
+    post:
+      tags:
+        - Product
+      description: Create a new product
+      operationId: createProduct
+      parameters:
+        - name: product
+          in: body
+          description: Product details
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+  /product/{productId}:
+    put:
+      tags:
+        - Product
+      description: Update product
+      operationId: updateProduct
+      parameters:
+        - $ref: "#/parameters/productId"
+        - name: updateProduct
+          in: body
+          description: Request to update product
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Product
+      description: Deletes a Product
+      operationId: deleteProduct
+      parameters:
+        - $ref: "#/parameters/productId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contact:
+    post:
+      tags:
+        - Contact
+      description: Create a new contact
+      operationId: createContact
+      parameters:
+        - name: contact
+          in: body
+          description: contact details
+          required: true
+          schema:
+            $ref: "#/definitions/Contact"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contact/{contactId}:
+    put:
+      tags:
+        - Contact
+      description: Update contact
+      operationId: updateContact
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - name: updatecontact
+          in: body
+          description: Request to update contact
+          required: true
+          schema:
+            $ref: "#/definitions/Contact"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Contact
+      description: Deletes a contact
+      operationId: deleteContact
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contact/{contactId}/opportunity:
+    post:
+      tags:
+        - Opportunity
+      description: Create a new opportunity
+      operationId: createOpportunity
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - name: opportunity
+          in: body
+          description: opty details
+          required: true
+          schema:
+            $ref: "#/definitions/Opportunity"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contact/{contactId}/opportunity/{opportunityId}:
+    put:
+      tags:
+        - Opportunity
+      description: Update opty
+      operationId: updateOpportunity
+      parameters:
+        - $ref: "#/parameters/opportunityId"
+        - $ref: "#/parameters/contactId"
+        - name: updateOpportunity
+          in: body
+          description: Request to update opty
+          required: true
+          schema:
+            $ref: "#/definitions/Opportunity"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Opportunity
+      description: Deletes a opty
+      operationId: deleteOpportunity
+      parameters:
+        - $ref: "#/parameters/opportunityId"
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
 definitions:
   User:
     type: object
@@ -83,13 +316,119 @@ definitions:
         description: When user was updated
         type: string
         format: date-time
-  UserCreatedResponse:
+  Product:
     type: object
+    description: Product details
     properties:
-      userId:
-        description: newly created user Id
+      name:
+        description: name of the product
+        type: string
+        example: GenWatt Diesel 1000kW
+      code:
+        description: code of the product
+        type: string
+        example: GC1060
+      listprice:
+        description: price of product to two decimal places
+        type: string
+        pattern: ^\d{1,2}\.\d{1,2}$
+        example: 10000.25
+  Contact:
+    type: object
+    description: Contact Details
+    properties:
+      username:
+        description: name of the contact
+        type: string
+        example: Ashutosh Kapoor
+      gender:
+        type: string
+        enum:
+          - MALE
+          - FEMALE
+      title:
+        description: title of the user
+        type: string
+        enum:
+          - Mr
+          - Mrs
+          - Ms
+          - Miss
+      birthDate:
+        description: DOB
+        type: string
+        format: date-time
+      department:
+        description: Work profile
+        type: string
+        example: Enginner
+      address:
+        $ref: "#/definitions/Address"
+      phone:
+        description: Phone number
+        type: string
+        example: 470000001
+      owner:
+        description: Id of the owner
         type: string
         example: 60c8896c8a3fdb5260274bf0
+      cases:
+        type: array
+        items:
+          type: string
+          description: Id of the case associated
+          example: 60c8896c8a3fdb5260274bf0
+      opportunities:
+        type: array
+        items:
+          type: string
+          description: Id of the opportunity associated
+          example: 60c8896c8a3fdb5260274bf0
+      attachments:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: Name of attachment
+              type: string
+              example: NotesFile
+            path:
+              description: Path of attachment on server
+              type: string
+              example: /directory/filename
+      createdAt:
+        description: When contact was created
+        type: string
+        format: date-time
+      updatedAt:
+        description: When contact was updated
+        type: string
+        format: date-time
+  Opportunity:
+    type: object
+    description: Contact Details
+    properties:
+      username:
+        description: name of the contact
+        type: string
+        example: Ashutosh Kapoor
+  CreatedResponse:
+    type: object
+    properties:
+      id:
+        description: newly created Id
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  Address:
+    type: object
+    properties:
+      street:
+        type: string
+        example: Cecil St
+      city:
+        type: string
+        example: Sydney
   Error:
     description: Individual errors
     type: object
@@ -109,11 +448,11 @@ definitions:
         type: string
 
 responses:
-  201UserResponse:
+  201Response:
     description: Created
     schema:
-      $ref: "#/definitions/UserCreatedResponse"
-  400UserResponse:
+      $ref: "#/definitions/CreatedResponse"
+  400Response:
     description: |
       __Bad Request__
       Possible errors
@@ -136,7 +475,7 @@ responses:
             - code: 1600
               message: Mandatory parameters missing
               details: Invalid param value passed for parameter {0}
-  500UserResponse:
+  500Response:
     description: |
       __Bad Request__
       Possible errors
@@ -159,3 +498,26 @@ responses:
             - code: 1000
               message: Internal Server Error
               details: Unexpected error
+  404Response:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |7000  | Not found | Record for given id not found
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 7000
+              message: Not found
+              details: Record for given id not found
