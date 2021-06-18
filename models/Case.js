@@ -22,10 +22,10 @@ const caseSchema = new schema(
       required: true,
       enum: ["HIGH", "MEDIUM", "LOW"],
     },
-    owner: { type: Schema.ObjectId, ref: "User", required: true },
-    customer: { type: Schema.ObjectId, ref: "Contact", required: true },
+    owner: { type: schema.Types.ObjectId, ref: "User", required: true },
+    customer: { type: schema.Types.ObjectId, ref: "Contact", required: true },
   },
   { autoCreate: false }
 );
 
-module.exports = mongoose.model("Case", caseSchema);
+module.exports = mongoose.model("Case", caseSchema, "Case");

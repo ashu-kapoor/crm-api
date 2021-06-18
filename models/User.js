@@ -12,11 +12,11 @@ const userSchema = new schema(
     role: {
       type: String,
       required: true,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["USER", "ADMIN"],
+      default: "USER",
     },
   },
   { timestamps: true, autoCreate: false }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema, "User");

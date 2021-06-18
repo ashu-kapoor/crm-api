@@ -6,7 +6,7 @@ const addressSchema = new schema(
     street: { type: String, required: true },
     city: { type: String, required: true },
   },
-  { autoCreate: false }
+  { autoCreate: false, _id: false }
 );
 
 const attachmentsSchema = new schema(
@@ -14,7 +14,7 @@ const attachmentsSchema = new schema(
     name: { type: String, required: true },
     path: { type: String, required: true },
   },
-  { autoCreate: false }
+  { autoCreate: false, _id: false }
 );
 
 const contactSchema = new schema(
@@ -32,15 +32,15 @@ const contactSchema = new schema(
     },
     birthdate: { type: String, required: false },
     department: { type: String, required: false },
-    address: { type: [addressSchema], required: false },
+    address: { type: addressSchema, required: false },
     phone: { type: String, required: true },
-    owner: { type: Schema.ObjectId, ref: "User", required: true },
+    owner: { type: schema.Types.ObjectId, ref: "User", required: true },
     cases: {
-      type: [{ type: Schema.ObjectId, ref: "Case" }],
+      type: [{ type: schema.Types.ObjectId, ref: "Case" }],
       required: false,
     },
     opportunities: {
-      type: [{ type: Schema.ObjectId, ref: "Opportunity" }],
+      type: [{ type: schema.Types.ObjectId, ref: "Opportunity" }],
       required: false,
     },
 
@@ -49,4 +49,4 @@ const contactSchema = new schema(
   { timestamps: true, autoCreate: false }
 );
 
-module.exports = mongoose.model("Contact", contactSchema);
+module.exports = mongoose.model("Contact", contactSchema, "Contact");

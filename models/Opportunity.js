@@ -17,14 +17,18 @@ const opportunitySchema = new schema(
       ],
     },
     products: {
-      type: [{ type: Schema.ObjectId, ref: "Product" }],
+      type: [{ type: schema.Types.ObjectId, ref: "Product" }],
       required: true,
     },
     closeDate: { type: Date, required: true },
-    owner: { type: Schema.ObjectId, ref: "User", required: true },
-    customer: { type: Schema.ObjectId, ref: "Contact", required: true },
+    owner: { type: schema.Types.ObjectId, ref: "User", required: true },
+    customer: { type: schema.Types.ObjectId, ref: "Contact", required: true },
   },
   { autoCreate: false }
 );
 
-module.exports = mongoose.model("Opportunity", opportunitySchema);
+module.exports = mongoose.model(
+  "Opportunity",
+  opportunitySchema,
+  "Opportunity"
+);
