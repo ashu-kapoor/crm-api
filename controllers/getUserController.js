@@ -4,6 +4,8 @@ Author: Ashutosh Kapoor
 GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 ****************/
 
+const User = require("../models/User");
+
 /**
  * @param {object} req - req object
  * @param {object} res - res object
@@ -11,6 +13,21 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 module.exports.getUserController = (req, res, next) => {
-  //TODO: replace with your code
-  res.status(200).json({ status: "OK" });
+  const userId = req.params.userId;
+
+  User.findById(userId, "-password")
+    .then((user) => {
+      if (!user) {
+        const customError = new Error();
+        customError.apiErrorCode = 7000;
+        throw customError;
+      }
+      res.status(200).json({ users: [user] });
+    })
+    .catch((err) => {
+      if (!err.apiErrorCode) {
+        err.apiErrorCode = 1000;
+      }
+      next(err);
+    });
 };
