@@ -87,10 +87,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200UserResponse"
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
   /users/{userId}:
@@ -104,8 +100,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200UserResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -126,10 +120,6 @@ paths:
       responses:
         204:
           description: No Content
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
     delete:
@@ -175,10 +165,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200ProductResponse"
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
   /products/{productId}:
@@ -192,8 +178,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200ProductResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -263,10 +247,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200ContactResponse"
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
   /contacts/{contactId}:
@@ -280,8 +260,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200ContactResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -354,8 +332,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200OpportunityResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -372,8 +348,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200OpportunityResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -463,8 +437,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200CaseResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -519,8 +491,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200CaseResponse"
-        400:
-          $ref: "#/responses/400Response"
         404:
           $ref: "#/responses/404Response"
         500:
@@ -534,10 +504,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200CaseResponse"
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
 definitions:
@@ -552,6 +518,10 @@ definitions:
         description: name of the user
         type: string
         example: Ashutosh Kapoor
+      email:
+        description: email of the user
+        type: string
+        example: xyz@gmail.com
       password:
         description: password of the user encrypted
         type: string
@@ -586,7 +556,7 @@ definitions:
         description: code of the product
         type: string
         example: GC1060
-      listprice:
+      listPrice:
         description: price of product to two decimal places
         type: string
         pattern: ^\d{1,2}\.\d{1,2}$
@@ -599,15 +569,15 @@ definitions:
         description: Id of the object
         type: string
         example: 60c8896c8a3#$Z%4bf0
-      username:
+      name:
         description: name of the contact
         type: string
         example: Ashutosh Kapoor
       gender:
         type: string
         enum:
-          - MALE
-          - FEMALE
+          - Male
+          - Female
       title:
         description: title of the user
         type: string
@@ -784,7 +754,7 @@ definitions:
 
 responses:
   200UserResponse:
-    description: Created
+    description: OK
     schema:
       type: object
       properties:
@@ -793,38 +763,38 @@ responses:
           items:
             $ref: "#/definitions/User"
   200ProductResponse:
-    description: Created
+    description: OK
     schema:
       type: object
       properties:
-        users:
+        products:
           type: array
           items:
             $ref: "#/definitions/Product"
   200ContactResponse:
-    description: Created
+    description: OK
     schema:
       type: object
       properties:
-        users:
+        contacts:
           type: array
           items:
             $ref: "#/definitions/Contact"
   200OpportunityResponse:
-    description: Created
+    description: OK
     schema:
       type: object
       properties:
-        users:
+        opportunities:
           type: array
           items:
             $ref: "#/definitions/Opportunity"
   200CaseResponse:
-    description: Created
+    description: OK
     schema:
       type: object
       properties:
-        users:
+        cases:
           type: array
           items:
             $ref: "#/definitions/Case"
