@@ -1,0 +1,903 @@
+swagger: "2.0"
+info:
+  description: |
+    API for CRM Project. Provides following functionalities:
+      1. Create/ Update/ Delete User 
+      2. Create/ Update/ Delete Product
+      3. Create/ Update/ Delete Contact
+      4. Create/ Update/ Delete Attachment
+      5. Create/ Update/ Delete Opportunity
+      6. Create/ Update/ Delete Case
+      7. Authorizes user
+  version: "1.0.0"
+  title: "CRM API"
+  contact:
+    email: "ashutoshkapor1234@gmail.com"
+host: "localhost:8080"
+basePath: "/crm/v1"
+schemes:
+  - "http"
+produces:
+  - application/json
+consumes:
+  - application/json
+securityDefinitions:
+  API Key:
+    type: basic
+    description: API key needs to be presented as part of standard auth header
+security:
+  - API Key: []
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: Id of the user to update or delete
+    type: string
+    required: true
+  productId:
+    name: productId
+    in: path
+    description: Id of the product to update or delete
+    type: string
+    required: true
+  contactId:
+    name: contactId
+    in: path
+    description: Id of the contact to update or delete
+    type: string
+    required: true
+  opportunityId:
+    name: opportunityId
+    in: path
+    description: Id of the opportunity to update or delete
+    type: string
+    required: true
+  caseId:
+    name: caseId
+    in: path
+    description: Id of the case to update or delete
+    type: string
+    required: true
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      description: Create a new user
+      operationId: createUser
+      parameters:
+        - name: user
+          in: body
+          description: User details
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - User
+      description: Get all users
+      operationId: getUsers
+      responses:
+        200:
+          $ref: "#/responses/200UserResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /users/{userId}:
+    get:
+      tags:
+        - User
+      description: Get a user
+      operationId: getUser
+      parameters:
+        - $ref: "#/parameters/userId"
+      responses:
+        200:
+          $ref: "#/responses/200UserResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    put:
+      tags:
+        - User
+      description: Update user
+      operationId: updateUser
+      parameters:
+        - $ref: "#/parameters/userId"
+        - name: updateUser
+          in: body
+          description: Request to update user
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - User
+      description: Deletes a User
+      operationId: deleteUser
+      parameters:
+        - $ref: "#/parameters/userId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+
+  /products:
+    post:
+      tags:
+        - Product
+      description: Create a new product
+      operationId: createProduct
+      parameters:
+        - name: product
+          in: body
+          description: Product details
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Product
+      description: Get all products
+      operationId: getProducts
+      responses:
+        200:
+          $ref: "#/responses/200ProductResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /products/{productId}:
+    get:
+      tags:
+        - Product
+      description: Get a product
+      operationId: getProduct
+      parameters:
+        - $ref: "#/parameters/productId"
+      responses:
+        200:
+          $ref: "#/responses/200ProductResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    put:
+      tags:
+        - Product
+      description: Update product
+      operationId: updateProduct
+      parameters:
+        - $ref: "#/parameters/productId"
+        - name: updateProduct
+          in: body
+          description: Request to update product
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Product
+      description: Deletes a Product
+      operationId: deleteProduct
+      parameters:
+        - $ref: "#/parameters/productId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+
+  /contacts:
+    post:
+      tags:
+        - Contact
+      description: Create a new contact
+      operationId: createContact
+      parameters:
+        - name: contact
+          in: body
+          description: contact details
+          required: true
+          schema:
+            $ref: "#/definitions/Contact"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Contact
+      description: Get contacts
+      operationId: getContacts
+      responses:
+        200:
+          $ref: "#/responses/200ContactResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contacts/{contactId}:
+    get:
+      tags:
+        - Contact
+      description: Get a contact
+      operationId: getContact
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        200:
+          $ref: "#/responses/200ContactResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    put:
+      tags:
+        - Contact
+      description: Update contact
+      operationId: updateContact
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - name: updatecontact
+          in: body
+          description: Request to update contact
+          required: true
+          schema:
+            $ref: "#/definitions/Contact"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Contact
+      description: Deletes a contact
+      operationId: deleteContact
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+
+  /contacts/{contactId}/opportunities:
+    post:
+      tags:
+        - Opportunity
+      description: Create a new opportunity
+      operationId: createOpportunity
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - name: opportunity
+          in: body
+          description: opty details
+          required: true
+          schema:
+            $ref: "#/definitions/Opportunity"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Opportunity
+      description: Get all opties for contact
+      operationId: getOpportunities
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        200:
+          $ref: "#/responses/200OpportunityResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contacts/{contactId}/opportunities/{opportunityId}:
+    get:
+      tags:
+        - Opportunity
+      description: Get an opties for contact
+      operationId: getOpportunity
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - $ref: "#/parameters/opportunityId"
+      responses:
+        200:
+          $ref: "#/responses/200OpportunityResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    put:
+      tags:
+        - Opportunity
+      description: Update opty
+      operationId: updateOpportunity
+      parameters:
+        - $ref: "#/parameters/opportunityId"
+        - $ref: "#/parameters/contactId"
+        - name: updateOpportunity
+          in: body
+          description: Request to update opty
+          required: true
+          schema:
+            $ref: "#/definitions/Opportunity"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Opportunity
+      description: Deletes a opty
+      operationId: deleteOpportunity
+      parameters:
+        - $ref: "#/parameters/opportunityId"
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+
+  /opportunities:
+    get:
+      tags:
+        - Opportunity
+      description: Get all opportunites
+      operationId: getAllOpties
+      responses:
+        200:
+          $ref: "#/responses/200OpportunityResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contacts/{contactId}/cases:
+    post:
+      tags:
+        - Case
+      description: Create a new case
+      operationId: createCase
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - name: case
+          in: body
+          description: case details
+          required: true
+          schema:
+            $ref: "#/definitions/Case"
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Case
+      description: Get all cases for contact
+      operationId: getCases
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        200:
+          $ref: "#/responses/200CaseResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contacts/{contactId}/cases/{caseId}:
+    put:
+      tags:
+        - Case
+      description: Update case
+      operationId: updateCase
+      parameters:
+        - $ref: "#/parameters/caseId"
+        - $ref: "#/parameters/contactId"
+        - name: updateCase
+          in: body
+          description: Request to update case
+          required: true
+          schema:
+            $ref: "#/definitions/Case"
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Case
+      description: Deletes a case
+      operationId: deleteCase
+      parameters:
+        - $ref: "#/parameters/caseId"
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Case
+      description: Get a case for contact
+      operationId: getCase
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - $ref: "#/parameters/caseId"
+      responses:
+        200:
+          $ref: "#/responses/200CaseResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /cases:
+    get:
+      tags:
+        - Case
+      description: Get all cases
+      operationId: getAllCases
+      responses:
+        200:
+          $ref: "#/responses/200CaseResponse"
+        400:
+          $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+definitions:
+  User:
+    type: object
+    properties:
+      _id:
+        description: Id of the object
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      username:
+        description: name of the user
+        type: string
+        example: Ashutosh Kapoor
+      password:
+        description: password of the user encrypted
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      role:
+        description: role of the user
+        type: string
+        enum:
+          - ADMIN
+          - USER
+      createdAt:
+        description: When user was created
+        type: string
+        format: date-time
+      updatedAt:
+        description: When user was updated
+        type: string
+        format: date-time
+  Product:
+    type: object
+    description: Product details
+    properties:
+      _id:
+        description: Id of the object
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      name:
+        description: name of the product
+        type: string
+        example: GenWatt Diesel 1000kW
+      code:
+        description: code of the product
+        type: string
+        example: GC1060
+      listprice:
+        description: price of product to two decimal places
+        type: string
+        pattern: ^\d{1,2}\.\d{1,2}$
+        example: 10000.25
+  Contact:
+    type: object
+    description: Contact Details
+    properties:
+      _id:
+        description: Id of the object
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      username:
+        description: name of the contact
+        type: string
+        example: Ashutosh Kapoor
+      gender:
+        type: string
+        enum:
+          - MALE
+          - FEMALE
+      title:
+        description: title of the user
+        type: string
+        enum:
+          - Mr
+          - Mrs
+          - Ms
+          - Miss
+      birthDate:
+        description: DOB
+        type: string
+        format: date-time
+      department:
+        description: Work profile
+        type: string
+        example: Enginner
+      address:
+        $ref: "#/definitions/Address"
+      phone:
+        description: Phone number
+        type: string
+        example: 470000001
+      owner:
+        description: Id of the owner
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+      cases:
+        type: array
+        items:
+          type: string
+          description: Id of the case associated
+          example: 60c8896c8a3fdb5260274bf0
+      opportunities:
+        type: array
+        items:
+          type: string
+          description: Id of the opportunity associated
+          example: 60c8896c8a3fdb5260274bf0
+      attachments:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: Name of attachment
+              type: string
+              example: NotesFile
+            path:
+              description: Path of attachment on server
+              type: string
+              example: /directory/filename
+      createdAt:
+        description: When contact was created
+        type: string
+        format: date-time
+      updatedAt:
+        description: When contact was updated
+        type: string
+        format: date-time
+  Opportunity:
+    type: object
+    description: Contact Details
+    properties:
+      _id:
+        description: Id of the object
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      name:
+        description: name of the opty
+        type: string
+        example: new Product
+      description:
+        description: description of the opty
+        type: string
+        example: new 100kW GenWatt
+      stage:
+        description: stage of the opty
+        type: string
+        enum:
+          - PROSPECTING
+          - APPLICATION
+          - CLOSED_WON
+          - CLOSED_LOST
+          - CENCEL
+      products:
+        type: array
+        items:
+          type: string
+          description: Id of the products associated
+          example: 60c8896c8a3fdb5260274bf0
+      closedDate:
+        description: date of opty closure
+        type: string
+        format: date-time
+      owner:
+        description: Id of the customer
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+      customer:
+        description: Id of the owner
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  Case:
+    type: object
+    description: Contact Details
+    properties:
+      _id:
+        description: Id of the object
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      caseNumber:
+        description: case number
+        type: integer
+        example: 101
+      description:
+        description: description of the case
+        type: string
+        example: issue with 100kW GenWatt
+      stage:
+        description: stage of the case
+        type: string
+        enum:
+          - NEW
+          - WORKING
+          - ESCALATED
+      priority:
+        description: priority of the case
+        type: string
+        enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+      owner:
+        description: Id of the customer
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+      customer:
+        description: Id of the owner
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  CreatedResponse:
+    type: object
+    properties:
+      id:
+        description: newly created Id
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  Address:
+    type: object
+    properties:
+      street:
+        type: string
+        example: Cecil St
+      city:
+        type: string
+        example: Sydney
+  Error:
+    description: Individual errors
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        description: Error Code
+        type: integer
+        format: int32
+      message:
+        description: Error message
+        type: string
+      details:
+        description: Detail info about error
+        type: string
+
+responses:
+  200UserResponse:
+    description: Created
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/definitions/User"
+  200ProductResponse:
+    description: Created
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/definitions/Product"
+  200ContactResponse:
+    description: Created
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/definitions/Contact"
+  200OpportunityResponse:
+    description: Created
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/definitions/Opportunity"
+  200CaseResponse:
+    description: Created
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/definitions/Case"
+  201Response:
+    description: Created
+    schema:
+      $ref: "#/definitions/CreatedResponse"
+  400Response:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |1600  | Mandatory parameters missing | Invalid param value passed for parameter {0}
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 1600
+              message: Mandatory parameters missing
+              details: Invalid param value passed for parameter {0}
+  500Response:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |1000  | Internal Server Error | Unexpected error
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 1000
+              message: Internal Server Error
+              details: Unexpected error
+  404Response:
+    description: |
+      __Bad Request__
+      Possible errors
+      |Error Code | Error Message| Error Description|
+      |------|-----|------
+      |7000  | Not found | Record for given id not found
+    schema:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                $ref: "#/definitions/Error"
+      example:
+        result:
+          errors:
+            - code: 7000
+              message: Not found
+              details: Record for given id not found
