@@ -5,7 +5,7 @@ info:
       1. Create/ Update/ Delete User 
       2. Create/ Update/ Delete Product
       3. Create/ Update/ Delete Contact
-      4. Create/ Update/ Delete Attachment
+      4. Create/ Delete Attachment
       5. Create/ Update/ Delete Opportunity
       6. Create/ Update/ Delete Case
       7. Authorizes user
@@ -58,7 +58,34 @@ parameters:
     description: Id of the case to update or delete
     type: string
     required: true
+  attachmentId:
+    name: attachmentId
+    in: path
+    description: Id of the attachment
+    type: string
+    required: true
 paths:
+  /auth:
+    post:
+      tags:
+        - Authorization
+      description: Authorize a user
+      operationId: authUser
+      parameters:
+        - name: user
+          in: body
+          description: Auth details
+          required: true
+          schema:
+            $ref: "#/definitions/AuthRequest"
+      responses:
+        200:
+          $ref: "#/responses/AuthResponse"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+
   /users:
     post:
       tags:
@@ -71,7 +98,7 @@ paths:
           description: User details
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserRequest"
       responses:
         201:
           $ref: "#/responses/201Response"
@@ -116,10 +143,12 @@ paths:
           description: Request to update user
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserRequest"
       responses:
         204:
           description: No Content
+        400:
+          $ref: "#/responses/400Response"
         500:
           $ref: "#/responses/500Response"
     delete:
@@ -149,7 +178,7 @@ paths:
           description: Product details
           required: true
           schema:
-            $ref: "#/definitions/Product"
+            $ref: "#/definitions/ProductRequest"
       responses:
         201:
           $ref: "#/responses/201Response"
@@ -194,7 +223,7 @@ paths:
           description: Request to update product
           required: true
           schema:
-            $ref: "#/definitions/Product"
+            $ref: "#/definitions/ProductRequest"
       responses:
         204:
           description: No Content
@@ -231,7 +260,7 @@ paths:
           description: contact details
           required: true
           schema:
-            $ref: "#/definitions/Contact"
+            $ref: "#/definitions/CreateContactRequest"
       responses:
         201:
           $ref: "#/responses/201Response"
@@ -276,7 +305,7 @@ paths:
           description: Request to update contact
           required: true
           schema:
-            $ref: "#/definitions/Contact"
+            $ref: "#/definitions/UpdateContactRequest"
       responses:
         204:
           description: No Content
@@ -314,7 +343,7 @@ paths:
           description: opty details
           required: true
           schema:
-            $ref: "#/definitions/Opportunity"
+            $ref: "#/definitions/CreateOpportunityRequest"
       responses:
         201:
           $ref: "#/responses/201Response"
@@ -365,7 +394,7 @@ paths:
           description: Request to update opty
           required: true
           schema:
-            $ref: "#/definitions/Opportunity"
+            $ref: "#/definitions/UpdateOpportunityRequest"
       responses:
         204:
           description: No Content
@@ -400,10 +429,6 @@ paths:
       responses:
         200:
           $ref: "#/responses/200OpportunityResponse"
-        400:
-          $ref: "#/responses/400Response"
-        404:
-          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
   /contacts/{contactId}/cases:
@@ -419,12 +444,14 @@ paths:
           description: case details
           required: true
           schema:
-            $ref: "#/definitions/Case"
+            $ref: "#/definitions/CreateCaseRequest"
       responses:
         201:
           $ref: "#/responses/201Response"
         400:
           $ref: "#/responses/400Response"
+        404:
+          $ref: "#/responses/404Response"
         500:
           $ref: "#/responses/500Response"
     get:
@@ -455,7 +482,7 @@ paths:
           description: Request to update case
           required: true
           schema:
-            $ref: "#/definitions/Case"
+            $ref: "#/definitions/UpdateCaseRequest"
       responses:
         204:
           description: No Content
@@ -506,8 +533,119 @@ paths:
           $ref: "#/responses/200CaseResponse"
         500:
           $ref: "#/responses/500Response"
+
+  /contacts/{contactId}/attachments:
+    post:
+      tags:
+        - Attachments
+      description: Create a new attachment
+      operationId: createAttachment
+      consumes:
+        - multipart/form-data
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - in: formData
+          name: uploadedFile
+          type: file
+          required: true
+          description: File to upload text files only
+        - in: formData
+          name: note
+          type: string
+          required: true
+          description: Desciption of file
+      responses:
+        201:
+          $ref: "#/responses/201Response"
+        400:
+          $ref: "#/responses/400Response"
+        500:
+          $ref: "#/responses/500Response"
+    get:
+      tags:
+        - Attachments
+      description: Get list of attachments
+      operationId: getAttachments
+      parameters:
+        - $ref: "#/parameters/contactId"
+      responses:
+        200:
+          $ref: "#/responses/200AttachmentResponse"
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+  /contacts/{contactId}/attachments/{attachmentId}:
+    get:
+      tags:
+        - Attachments
+      description: Get list of attachments
+      operationId: getAttachment
+      produces:
+        - text/plain
+      parameters:
+        - $ref: "#/parameters/contactId"
+        - $ref: "#/parameters/attachmentId"
+      responses:
+        200:
+          description: The text file
+          schema:
+            type: file
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+    delete:
+      tags:
+        - Attachments
+      description: Deletes a attachment
+      operationId: deleteAttachment
+      parameters:
+        - $ref: "#/parameters/attachmentId"
+        - $ref: "#/parameters/contactId"
+      responses:
+        204:
+          description: No Content
+        404:
+          $ref: "#/responses/404Response"
+        500:
+          $ref: "#/responses/500Response"
+
 definitions:
-  User:
+  AuthRequest:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      email:
+        description: email of the user
+        type: string
+        example: xyz@gmail.com
+      password:
+        description: password of the user encrypted
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+  AuthResponse:
+    type: object
+    properties:
+      token:
+        description: jwt token for user
+        type: string
+
+  AttachmentResponse:
+    type: object
+    properties:
+      note:
+        description: Notes of the file
+        type: string
+        example: My test file
+      id:
+        description: id of the file
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+
+  UserResponse:
     type: object
     properties:
       _id:
@@ -540,7 +678,55 @@ definitions:
         description: When user was updated
         type: string
         format: date-time
-  Product:
+  UserRequest:
+    type: object
+    required:
+      - username
+      - email
+      - password
+      - role
+    properties:
+      username:
+        description: name of the user
+        type: string
+        example: Ashutosh Kapoor
+      email:
+        description: email of the user
+        type: string
+        example: xyz@gmail.com
+      password:
+        description: password of the user encrypted
+        type: string
+        example: 60c8896c8a3#$Z%4bf0
+      role:
+        description: role of the user
+        type: string
+        enum:
+          - ADMIN
+          - USER
+
+  ProductRequest:
+    type: object
+    description: Product details
+    required:
+      - name
+      - code
+      - listPrice
+    properties:
+      name:
+        description: name of the product
+        type: string
+        example: GenWatt Diesel 1000kW
+      code:
+        description: code of the product
+        type: string
+        example: GC1060
+      listPrice:
+        description: price of product to two decimal places
+        type: string
+        pattern: ^\d{1,2}\.\d{1,2}$
+        example: 10000.25
+  ProductResponse:
     type: object
     description: Product details
     properties:
@@ -561,7 +747,54 @@ definitions:
         type: string
         pattern: ^\d{1,2}\.\d{1,2}$
         example: 10000.25
-  Contact:
+
+  CreateContactRequest:
+    type: object
+    description: Contact Details
+    required:
+      - name
+      - gender
+      - title
+      - address
+      - phone
+      - owner
+    properties:
+      name:
+        description: name of the contact
+        type: string
+        example: Ashutosh Kapoor
+      gender:
+        type: string
+        enum:
+          - Male
+          - Female
+      title:
+        description: title of the user
+        type: string
+        enum:
+          - Mr
+          - Mrs
+          - Ms
+          - Miss
+      birthDate:
+        description: DOB
+        type: string
+        format: date-time
+      department:
+        description: Work profile
+        type: string
+        example: Enginner
+      address:
+        $ref: "#/definitions/Address"
+      phone:
+        description: Phone number
+        type: string
+        example: 470000001
+      owner:
+        description: Id of the owner
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  ContactResponse:
     type: object
     description: Contact Details
     properties:
@@ -637,9 +870,114 @@ definitions:
         description: When contact was updated
         type: string
         format: date-time
-  Opportunity:
+  UpdateContactRequest:
     type: object
     description: Contact Details
+    required:
+      - name
+      - gender
+      - title
+      - address
+      - phone
+      - owner
+    properties:
+      name:
+        description: name of the contact
+        type: string
+        example: Ashutosh Kapoor
+      gender:
+        type: string
+        enum:
+          - Male
+          - Female
+      title:
+        description: title of the user
+        type: string
+        enum:
+          - Mr
+          - Mrs
+          - Ms
+          - Miss
+      birthDate:
+        description: DOB
+        type: string
+        format: date-time
+      department:
+        description: Work profile
+        type: string
+        example: Enginner
+      address:
+        $ref: "#/definitions/Address"
+      phone:
+        description: Phone number
+        type: string
+        example: 470000001
+      cases:
+        type: array
+        items:
+          type: string
+          description: Id of the case associated
+          example: 60c8896c8a3fdb5260274bf0
+      opportunities:
+        type: array
+        items:
+          type: string
+          description: Id of the opportunity associated
+          example: 60c8896c8a3fdb5260274bf0
+      attachments:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: Name of attachment
+              type: string
+              example: NotesFile
+            path:
+              description: Path of attachment on server
+              type: string
+              example: /directory/filename
+
+  UpdateOpportunityRequest:
+    type: object
+    description: Opportunity Details
+    required:
+      - name
+      - stage
+      - products
+      - closeDate
+      - owner
+    properties:
+      name:
+        description: name of the opty
+        type: string
+        example: new Product
+      description:
+        description: description of the opty
+        type: string
+        example: new 100kW GenWatt
+      stage:
+        description: stage of the opty
+        type: string
+        enum:
+          - PROSPECTING
+          - APPLICATION
+          - CLOSED_WON
+          - CLOSED_LOST
+          - CENCEL
+      products:
+        type: array
+        items:
+          type: string
+          description: Id of the products associated
+          example: 60c8896c8a3fdb5260274bf0
+      closeDate:
+        description: date of opty closure
+        type: string
+        format: date-time
+  OpportunityResponse:
+    type: object
+    description: Opportunity Details
     properties:
       _id:
         description: Id of the object
@@ -680,7 +1018,118 @@ definitions:
         description: Id of the owner
         type: string
         example: 60c8896c8a3fdb5260274bf0
-  Case:
+  CreateOpportunityRequest:
+    type: object
+    description: Opportunity Details
+    required:
+      - name
+      - stage
+      - products
+      - closeDate
+      - owner
+    properties:
+      name:
+        description: name of the opty
+        type: string
+        example: new Product
+      description:
+        description: description of the opty
+        type: string
+        example: new 100kW GenWatt
+      stage:
+        description: stage of the opty
+        type: string
+        enum:
+          - PROSPECTING
+          - APPLICATION
+          - CLOSED_WON
+          - CLOSED_LOST
+          - CENCEL
+      products:
+        type: array
+        items:
+          type: string
+          description: Id of the products associated
+          example: 60c8896c8a3fdb5260274bf0
+      closeDate:
+        description: date of opty closure
+        type: string
+        format: date-time
+      owner:
+        description: Id of the customer
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+
+  CreateCaseRequest:
+    type: object
+    description: Case Details
+    required:
+      - caseNumber
+      - description
+      - stage
+      - priority
+      - owner
+    properties:
+      caseNumber:
+        description: case number
+        type: integer
+        example: 101
+      description:
+        description: description of the case
+        type: string
+        example: issue with 100kW GenWatt
+      stage:
+        description: stage of the case
+        type: string
+        enum:
+          - NEW
+          - WORKING
+          - ESCALATED
+      priority:
+        description: priority of the case
+        type: string
+        enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+      owner:
+        description: Id of the customer
+        type: string
+        example: 60c8896c8a3fdb5260274bf0
+  UpdateCaseRequest:
+    type: object
+    description: Case Details
+    required:
+      - caseNumber
+      - description
+      - stage
+      - priority
+      - owner
+    properties:
+      caseNumber:
+        description: case number
+        type: integer
+        example: 101
+      description:
+        description: description of the case
+        type: string
+        example: issue with 100kW GenWatt
+      stage:
+        description: stage of the case
+        type: string
+        enum:
+          - NEW
+          - WORKING
+          - ESCALATED
+      priority:
+        description: priority of the case
+        type: string
+        enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+
+  CaseResponse:
     type: object
     description: Contact Details
     properties:
@@ -718,6 +1167,7 @@ definitions:
         description: Id of the owner
         type: string
         example: 60c8896c8a3fdb5260274bf0
+
   CreatedResponse:
     type: object
     properties:
@@ -753,6 +1203,22 @@ definitions:
         type: string
 
 responses:
+  AuthResponse:
+    description: OK
+    schema:
+      type: object
+      properties:
+        auth:
+          $ref: "#/definitions/AuthResponse"
+  200AttachmentResponse:
+    description: OK
+    schema:
+      type: object
+      properties:
+        attachments:
+          type: array
+          items:
+            $ref: "#/definitions/AttachmentResponse"
   200UserResponse:
     description: OK
     schema:
@@ -761,7 +1227,7 @@ responses:
         users:
           type: array
           items:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserResponse"
   200ProductResponse:
     description: OK
     schema:
@@ -770,7 +1236,7 @@ responses:
         products:
           type: array
           items:
-            $ref: "#/definitions/Product"
+            $ref: "#/definitions/ProductResponse"
   200ContactResponse:
     description: OK
     schema:
@@ -779,7 +1245,7 @@ responses:
         contacts:
           type: array
           items:
-            $ref: "#/definitions/Contact"
+            $ref: "#/definitions/ContactResponse"
   200OpportunityResponse:
     description: OK
     schema:
@@ -788,7 +1254,7 @@ responses:
         opportunities:
           type: array
           items:
-            $ref: "#/definitions/Opportunity"
+            $ref: "#/definitions/OpportunityResponse"
   200CaseResponse:
     description: OK
     schema:
@@ -797,7 +1263,7 @@ responses:
         cases:
           type: array
           items:
-            $ref: "#/definitions/Case"
+            $ref: "#/definitions/CaseResponse"
   201Response:
     description: Created
     schema:
