@@ -879,7 +879,6 @@ definitions:
       - title
       - address
       - phone
-      - owner
     properties:
       name:
         description: name of the contact
@@ -946,7 +945,6 @@ definitions:
       - stage
       - products
       - closeDate
-      - owner
     properties:
       name:
         description: name of the opty
@@ -1104,7 +1102,6 @@ definitions:
       - description
       - stage
       - priority
-      - owner
     properties:
       caseNumber:
         description: case number
