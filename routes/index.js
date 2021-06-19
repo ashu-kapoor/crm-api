@@ -1,3 +1,4 @@
+const authUserRoute = require("./authUserRoute");
 const createUserRoute = require("./createUserRoute");
 const getUsersRoute = require("./getUsersRoute");
 const getUserRoute = require("./getUserRoute");
@@ -25,8 +26,13 @@ const updateCaseRoute = require("./updateCaseRoute");
 const deleteCaseRoute = require("./deleteCaseRoute");
 const getCaseRoute = require("./getCaseRoute");
 const getAllCasesRoute = require("./getAllCasesRoute");
+const createAttachmentRoute = require("./createAttachmentRoute");
+const getAttachmentsRoute = require("./getAttachmentsRoute");
+const getAttachmentRoute = require("./getAttachmentRoute");
+const deleteAttachmentRoute = require("./deleteAttachmentRoute");
 
 module.exports = {
+  authUserRoute,
   createUserRoute,
   getUsersRoute,
   getUserRoute,
@@ -54,4 +60,8 @@ module.exports = {
   deleteCaseRoute,
   getCaseRoute,
   getAllCasesRoute,
+  createAttachmentRoute,
+  getAttachmentsRoute,
+  getAttachmentRoute,
+  deleteAttachmentRoute,
 };
