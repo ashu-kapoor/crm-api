@@ -561,20 +561,6 @@ paths:
           $ref: "#/responses/400Response"
         500:
           $ref: "#/responses/500Response"
-    get:
-      tags:
-        - Attachments
-      description: Get list of attachments
-      operationId: getAttachments
-      parameters:
-        - $ref: "#/parameters/contactId"
-      responses:
-        200:
-          $ref: "#/responses/200AttachmentResponse"
-        404:
-          $ref: "#/responses/404Response"
-        500:
-          $ref: "#/responses/500Response"
   /contacts/{contactId}/attachments/{attachmentId}:
     get:
       tags:
