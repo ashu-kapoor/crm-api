@@ -6,7 +6,7 @@ module.exports = (error, req, res, next) => {
       code: error.apiErrorCode,
       message: errorMessages[error.apiErrorCode].message,
       details: error.apiData
-        ? errorMessages[error.apiErrorCode].details + " " + error.apiData
+        ? errorMessages[error.apiErrorCode].details + " - " + error.apiData
         : errorMessages[error.apiErrorCode].details,
     });
     res
