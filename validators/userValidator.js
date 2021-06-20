@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
 
   _.forEach([{ username }, { password }, { role }, { email }], (obj) => {
     _.forOwn(obj, function (value, key) {
-      if (!value) {
+      if (!value || !_.isString(value)) {
         const error = new Error();
         error.apiErrorCode = 1600;
         error.apiData = key;
