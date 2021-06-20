@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { getCaseController } = require("../controllers/getCaseController");
+const lodash = require("lodash");
 
 module.exports.getCase = (app, middlewares, validator = null) => {
   const middleWaresList = [];

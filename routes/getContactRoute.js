@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { getContactController } = require("../controllers/getContactController");
+const lodash = require("lodash");
 
 module.exports.getContact = (app, middlewares, validator = null) => {
   const middleWaresList = [];

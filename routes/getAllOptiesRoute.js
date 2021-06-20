@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   getAllOptiesController,
 } = require("../controllers/getAllOptiesController");
+const lodash = require("lodash");
 
 module.exports.getAllOpties = (app, middlewares, validator = null) => {
   const middleWaresList = [];

@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   getOpportunityController,
 } = require("../controllers/getOpportunityController");
+const lodash = require("lodash");
 
 module.exports.getOpportunity = (app, middlewares, validator = null) => {
   const middleWaresList = [];

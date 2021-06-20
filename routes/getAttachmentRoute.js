@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   getAttachmentController,
 } = require("../controllers/getAttachmentController");
+const lodash = require("lodash");
 
 module.exports.getAttachment = (app, middlewares, validator = null) => {
   const middleWaresList = [];

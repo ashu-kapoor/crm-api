@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { deleteCaseController } = require("../controllers/deleteCaseController");
+const lodash = require("lodash");
 
 module.exports.deleteCase = (app, middlewares, validator = null) => {
   const middleWaresList = [];

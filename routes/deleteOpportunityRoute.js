@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   deleteOpportunityController,
 } = require("../controllers/deleteOpportunityController");
+const lodash = require("lodash");
 
 module.exports.deleteOpportunity = (app, middlewares, validator = null) => {
   const middleWaresList = [];

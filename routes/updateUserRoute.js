@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { updateUserController } = require("../controllers/updateUserController");
+const lodash = require("lodash");
 
 module.exports.updateUser = (app, middlewares, validator = null) => {
   const middleWaresList = [];

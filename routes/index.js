@@ -27,7 +27,6 @@ const deleteCaseRoute = require("./deleteCaseRoute");
 const getCaseRoute = require("./getCaseRoute");
 const getAllCasesRoute = require("./getAllCasesRoute");
 const createAttachmentRoute = require("./createAttachmentRoute");
-const getAttachmentsRoute = require("./getAttachmentsRoute");
 const getAttachmentRoute = require("./getAttachmentRoute");
 const deleteAttachmentRoute = require("./deleteAttachmentRoute");
 
@@ -61,7 +60,6 @@ module.exports = {
   getCaseRoute,
   getAllCasesRoute,
   createAttachmentRoute,
-  getAttachmentsRoute,
   getAttachmentRoute,
   deleteAttachmentRoute,
 };

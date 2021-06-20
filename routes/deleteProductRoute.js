@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   deleteProductController,
 } = require("../controllers/deleteProductController");
+const lodash = require("lodash");
 
 module.exports.deleteProduct = (app, middlewares, validator = null) => {
   const middleWaresList = [];

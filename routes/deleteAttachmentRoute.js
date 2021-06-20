@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   deleteAttachmentController,
 } = require("../controllers/deleteAttachmentController");
+const lodash = require("lodash");
 
 module.exports.deleteAttachment = (app, middlewares, validator = null) => {
   const middleWaresList = [];

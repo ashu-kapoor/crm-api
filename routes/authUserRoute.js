@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { authUserController } = require("../controllers/authUserController");
+const lodash = require("lodash");
 
 module.exports.authUser = (app, middlewares, validator = null) => {
   const middleWaresList = [];

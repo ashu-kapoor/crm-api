@@ -13,6 +13,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const {
   getContactsController,
 } = require("../controllers/getContactsController");
+const lodash = require("lodash");
 
 module.exports.getContacts = (app, middlewares, validator = null) => {
   const middleWaresList = [];

@@ -11,6 +11,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
  **/
 
 const { deleteUserController } = require("../controllers/deleteUserController");
+const lodash = require("lodash");
 
 module.exports.deleteUser = (app, middlewares, validator = null) => {
   const middleWaresList = [];
