@@ -28,7 +28,6 @@ module.exports.createAttachmentController = (req, res, next) => {
       if (!data) {
         const error = new Error();
         error.apiErrorCode = 7000;
-        //TODO: clear file
         throw error;
       }
       res.status(201).json({ id: req.file.filename.split("_")[0] });
@@ -37,7 +36,6 @@ module.exports.createAttachmentController = (req, res, next) => {
       if (!err.apiErrorCode) {
         err.apiErrorCode = 1000;
       }
-      //TODO: clear file
       next(err);
     });
 };
