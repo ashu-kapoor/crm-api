@@ -18,7 +18,7 @@ module.exports.createUserController = (req, res, next) => {
   const email = req.body.email;
 
   bcrypt
-    .hash(password, process.env.passwordSalt)
+    .hash(password, parseInt(process.env.passwordSalt))
     .then((hashPass) => {
       const user = new User({
         username,

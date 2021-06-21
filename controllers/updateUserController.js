@@ -4,6 +4,7 @@ Author: Ashutosh Kapoor
 GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 ****************/
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 /**
  * @param {object} req - req object
  * @param {object} res - res object
@@ -18,11 +19,11 @@ module.exports.updateUserController = (req, res, next) => {
   const userId = req.params.userId;
 
   bcrypt
-    .hash(password, process.env.passwordSalt)
+    .hash(password, parseInt(process.env.passwordSalt))
     .then((hashPass) => {
       User.findOneAndUpdate(
         { _id: userId },
-        { username, password, role, email }
+        { username, password: hashPass, role, email }
       )
         .then((data) => {
           if (!data) {
