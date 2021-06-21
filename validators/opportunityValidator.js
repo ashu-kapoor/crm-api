@@ -14,12 +14,12 @@ const stageEnum = Object.freeze({
 
 module.exports.validateCreateOpportunity = (req, res, next) => {
 
-  const name= req.body.name,
-  const stage= req.body.stage,
-  const products= req.body.products,
-  const closeDate= req.body.closeDate,
-  const owner= req.body.owner,
-  const customer= req.params.contactId,
+  const name= req.body.name;
+  const stage= req.body.stage;
+  const products= req.body.products;
+  const closeDate= req.body.closeDate;
+  const owner= req.body.owner;
+  const customer= req.params.contactId;
   const description = req.body.description;
 
   
