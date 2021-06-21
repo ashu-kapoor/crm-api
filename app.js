@@ -227,7 +227,7 @@ const options = {
 };
 
 const dbConnectionPromise = mongoose.connect(process.env.connectionURL);
-mongoose.set("debug", process.env.debugMongo);
+mongoose.set("debug", process.env.debugMongo == "true");
 /**
  * @param {array} routesArray - routesArray to register
  * @param {array} customMiddlewares - array of custom middlewares to be applied to this route
