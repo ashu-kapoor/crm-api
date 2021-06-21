@@ -22,7 +22,11 @@ module.exports.deleteContactController = (req, res, next) => {
         throw error;
       } else {
         //if contact exists check it doesnt exist anywhere before deleting
-        if (contact.cases.length > 0 || contact.opportunities.length > 0) {
+        if (
+          contact.cases.length > 0 ||
+          contact.opportunities.length > 0 ||
+          contact.attachments.length > 0
+        ) {
           const error = new Error();
           error.apiErrorCode = 1000;
           error.apiData = "Contact has records";
@@ -31,7 +35,6 @@ module.exports.deleteContactController = (req, res, next) => {
           contact
             .delete()
             .then(() => {
-              //TODO delete files if any
               res.status(204).send();
             })
             .catch((err) => {
