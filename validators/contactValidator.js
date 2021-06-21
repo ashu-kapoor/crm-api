@@ -24,7 +24,12 @@ module.exports.validateCreateContact = (req, res, next) => {
   const phone = req.body.phone;
   const owner = req.body.owner;
 
-  validateContact([{ name }, { gender }, { title }, { phone }, { owner }]);
+  validateContact(
+    [{ name }, { gender }, { title }, { phone }, { owner }],
+    address,
+    birthdate,
+    department
+  );
 
   next();
 };
@@ -38,12 +43,17 @@ module.exports.validateUpdateContact = (req, res, next) => {
   const address = req.body.address;
   const phone = req.body.phone;
 
-  validateContact([{ name }, { gender }, { title }, { phone }]);
+  validateContact(
+    [{ name }, { gender }, { title }, { phone }],
+    address,
+    birthdate,
+    department
+  );
 
   next();
 };
 
-function validateContact(validationArray) {
+function validateContact(validationArray, address, birthdate, department) {
   _.forEach(validationArray, (obj) => {
     _.forOwn(obj, function (value, key) {
       if (!value || !_.isString(value)) {
