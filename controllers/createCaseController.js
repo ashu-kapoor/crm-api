@@ -64,7 +64,9 @@ module.exports.createCaseController = (req, res, next) => {
               throw err;
             });
         })
-        .catch((err) => throw err);
+        .catch((err) => {
+          throw err;
+        });
     })
     .catch((err) => {
       if (!err.apiErrorCode) {
