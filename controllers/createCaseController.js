@@ -7,6 +7,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 const Case = require("../models/Case");
 const Contact = require("../models/Contact");
 const mongoose = require("mongoose");
+const User = require("../models/User");
 
 /**
  * @param {object} req - req object
@@ -35,24 +36,35 @@ module.exports.createCaseController = (req, res, next) => {
         customer: result._id,
       };
 
-      //save Case and update contact as a transaction
-      createUpdateCase(dbRequest, res)
+      User.findById(req.body.owner)
         .then((data) => {
-          if (data.isError) {
-            const error = new Error("Creation failed");
-            error.apiErrorCode = 1000;
-          } else {
-            return res.status(201).json({
-              id: data.id,
+          if (!data) {
+            const error = new Error();
+            error.apiErrorCode = 1600;
+            error.apiData = "owner";
+            throw error;
+          }
+
+          //save Case and update contact as a transaction
+          createUpdateCase(dbRequest, res)
+            .then((data) => {
+              if (data.isError) {
+                const error = new Error("Creation failed");
+                error.apiErrorCode = 1000;
+              } else {
+                return res.status(201).json({
+                  id: data.id,
+                });
+              }
+            })
+            .catch((err) => {
+              if (!err.apiErrorCode) {
+                err.apiErrorCode = 1000;
+              }
+              throw err;
             });
-          }
         })
-        .catch((err) => {
-          if (!err.apiErrorCode) {
-            err.apiErrorCode = 1000;
-          }
-          throw err;
-        });
+        .catch((err) => throw err);
     })
     .catch((err) => {
       if (!err.apiErrorCode) {
