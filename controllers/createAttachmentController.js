@@ -4,6 +4,7 @@ Author: Ashutosh Kapoor
 GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 ****************/
 const Contact = require("../models/Contact");
+const _ = require("lodash");
 /**
  * @param {object} req - req object
  * @param {object} res - res object
@@ -19,6 +20,13 @@ module.exports.createAttachmentController = (req, res, next) => {
     name,
     path,
   };
+
+  if (_.isEmpty(name)) {
+    const error = new Error();
+    error.apiErrorCode = 1600;
+    error.apiData = "note";
+    throw error;
+  }
 
   Contact.findOneAndUpdate(
     { _id: contactId },
