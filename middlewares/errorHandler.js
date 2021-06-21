@@ -38,4 +38,9 @@ const errorMessages = {
     details: "Record for given id not found",
     status: 400,
   },
+  401: {
+    message: "Unauthorized",
+    details: "User Unauthorized",
+    status: 401,
+  },
 };

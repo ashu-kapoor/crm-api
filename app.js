@@ -13,6 +13,7 @@ const userValidator = require("./validators/userValidator");
 const productValidator = require("./validators/productValidator");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
+const authMiddleware = require("./middlewares/authMiddleware");
 
 const {
   validateCreateOpportunity,
@@ -63,142 +64,143 @@ const routesArray = [
   {
     method: routes.createUserRoute.createUser,
     validatorFn: userValidator,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getUsersRoute.getUsers,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getUserRoute.getUser,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.updateUserRoute.updateUser,
     validatorFn: userValidator,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteUserRoute.deleteUser,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.createProductRoute.createProduct,
     validatorFn: productValidator,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getProductsRoute.getProducts,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getProductRoute.getProduct,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.updateProductRoute.updateProduct,
     validatorFn: productValidator,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteProductRoute.deleteProduct,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.createContactRoute.createContact,
     validatorFn: validateCreateContact,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getContactsRoute.getContacts,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getContactRoute.getContact,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.updateContactRoute.updateContact,
     validatorFn: validateUpdateContact,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteContactRoute.deleteContact,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.createOpportunityRoute.createOpportunity,
     validatorFn: validateCreateOpportunity,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getOpportunitiesRoute.getOpportunities,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getOpportunityRoute.getOpportunity,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.updateOpportunityRoute.updateOpportunity,
     validatorFn: validateUpdateOpportunity,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteOpportunityRoute.deleteOpportunity,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getAllOptiesRoute.getAllOpties,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.createCaseRoute.createCase,
     validatorFn: validateCreateCase,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getCasesRoute.getCases,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.updateCaseRoute.updateCase,
     validatorFn: validateUpdateCase,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteCaseRoute.deleteCase,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getCaseRoute.getCase,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.getAllCasesRoute.getAllCases,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.createAttachmentRoute.createAttachment,
     validatorFn: null,
     routeSpecificMiddlewares: [
+      authMiddleware,
       multer({
         storage: fileStorage,
         fileFilter: fileFilter,
@@ -208,12 +210,12 @@ const routesArray = [
   {
     method: routes.getAttachmentRoute.getAttachment,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
   {
     method: routes.deleteAttachmentRoute.deleteAttachment,
     validatorFn: null,
-    routeSpecificMiddlewares: null,
+    routeSpecificMiddlewares: [authMiddleware],
   },
 ];
 

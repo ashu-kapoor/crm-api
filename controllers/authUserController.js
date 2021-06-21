@@ -15,6 +15,7 @@ const jwt = require("jsonwebtoken");
 module.exports.authUserController = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  let loadedUser;
   User.findOne({ email })
     .then((user) => {
       if (!user) {
@@ -23,6 +24,7 @@ module.exports.authUserController = (req, res, next) => {
         error.apiData = "email";
         throw error;
       }
+      loadedUser = user;
       return bcrypt.compare(password, user.password);
     })
     .then((isValid) => {
