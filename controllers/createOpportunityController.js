@@ -4,6 +4,7 @@ Author: Ashutosh Kapoor
 GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 ****************/
 const Opportunity = require("../models/Opportunity");
+const User = require("../models/User");
 const Contact = require("../models/Contact");
 const mongoose = require("mongoose");
 /**
@@ -38,22 +39,33 @@ module.exports.createOpportunityController = (req, res, next) => {
         dbRequest.description = description;
       }
 
-      //save opty and update contact as a transaction
-      createUpdateOpty(dbRequest, res)
+      User.findById(req.body.owner)
         .then((data) => {
-          if (data.isError) {
-            const error = new Error("Creation failed");
-            error.apiErrorCode = 1000;
-          } else {
-            return res.status(201).json({
-              id: data.id,
-            });
+          if (!data) {
+            const error = new Error();
+            error.apiErrorCode = 1600;
+            error.apiData = "owner";
+            throw error;
           }
+
+          //save opty and update contact as a transaction
+          createUpdateOpty(dbRequest, res)
+            .then((data) => {
+              if (data.isError) {
+                const error = new Error("Creation failed");
+                error.apiErrorCode = 1000;
+                throw error;
+              } else {
+                return res.status(201).json({
+                  id: data.id,
+                });
+              }
+            })
+            .catch((err) => {
+              throw err;
+            });
         })
         .catch((err) => {
-          if (!err.apiErrorCode) {
-            err.apiErrorCode = 1000;
-          }
           throw err;
         });
     })
