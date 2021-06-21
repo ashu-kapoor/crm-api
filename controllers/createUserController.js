@@ -4,6 +4,7 @@ Author: Ashutosh Kapoor
 GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 ****************/
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 /**
  * @param {object} req - req object
  * @param {object} res - res object
@@ -16,20 +17,27 @@ module.exports.createUserController = (req, res, next) => {
   const role = req.body.role;
   const email = req.body.email;
 
-  const user = new User({
-    username,
-    password,
-    role,
-    email,
-  });
-
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(201).json({
-        id: result._id,
+  bcrypt
+    .hash(password, process.env.passwordSalt)
+    .then((hashPass) => {
+      const user = new User({
+        username,
+        password: hashPass,
+        role,
+        email,
       });
+
+      user
+        .save()
+        .then((result) => {
+          console.log(result);
+          res.status(201).json({
+            id: result._id,
+          });
+        })
+        .catch((err) => {
+          throw err;
+        });
     })
     .catch((err) => {
       if (!err.apiErrorCode) {

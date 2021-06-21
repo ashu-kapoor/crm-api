@@ -17,14 +17,24 @@ module.exports.updateUserController = (req, res, next) => {
   const email = req.body.email;
   const userId = req.params.userId;
 
-  User.findOneAndUpdate({ _id: userId }, { username, password, role, email })
-    .then((data) => {
-      if (!data) {
-        const error = new Error();
-        error.apiErrorCode = 7000;
-        throw error;
-      }
-      res.status(204).send();
+  bcrypt
+    .hash(password, process.env.passwordSalt)
+    .then((hashPass) => {
+      User.findOneAndUpdate(
+        { _id: userId },
+        { username, password, role, email }
+      )
+        .then((data) => {
+          if (!data) {
+            const error = new Error();
+            error.apiErrorCode = 7000;
+            throw error;
+          }
+          res.status(204).send();
+        })
+        .catch((err) => {
+          throw err;
+        });
     })
     .catch((err) => {
       if (!err.apiErrorCode) {

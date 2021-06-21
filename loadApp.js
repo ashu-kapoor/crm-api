@@ -7,6 +7,7 @@ GIT LINK : https://github.com/ashu-kapoor/NODEBOOTSTRAPPER
 /**
  * @param {array} routes - routes array having keys - method, routeSpecificMiddlewares, validatorFn
  * @param {array} commonMiddlewares - array of middlewares to be applied to all routes
+ * @param {array} postMiddlewares - array of middlewares to be applied after all routes
  * @param {object} options - options object
  * @param {object} dbConnectionPromise - promise if sever to start on connecting to DB
  **/
@@ -20,6 +21,7 @@ const sanitizer = require("sanitizer");
 module.exports.loadApp = (
   routes,
   commonMiddlewares,
+  postMiddlewares,
   options = {
     useNoCache: true,
     allowCORSOrigin: "*",
@@ -90,12 +92,25 @@ module.exports.loadApp = (
     route.method(app, route.routeSpecificMiddlewares, route.validatorFn);
   });
 
+  //initialise post middlewares
+  if (postMiddlewares && isArray(postMiddlewares)) {
+    postMiddlewares.forEach((middleware) => {
+      if (isFunction(middleware)) {
+        app.use(middleware);
+      } else {
+        throw new Error(
+          "Initialisation failed. Postmiddleware is not a function"
+        );
+      }
+    });
+  }
+
   if (dbConnectionPromise) {
     dbConnectionPromise
       .then((res) => {
         app.listen(port);
       })
-      .catch((err) => console.log("Error connecting to DB"));
+      .catch((err) => console.log("Error connecting to DB" + err));
   } else {
     app.listen(port);
   }
